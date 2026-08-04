@@ -81,17 +81,18 @@ showPair();
 
 }
 
-function finish(){
+function finish() {
 
-document.querySelector(".comparison").style.display="none";
+    document.querySelector(".comparison").style.display = "none";
+    document.querySelector(".slider").style.display = "none";
 
-document.querySelector(".slider").style.display="none";
+    document.getElementById("comment").style.display = "none";
+    document.getElementById("nextButton").style.display = "none";
 
-comment.style.display="none";
+    document.getElementById("progress").innerHTML =
+        "<h2>Survey Complete!</h2>";
 
-nextButton.style.display="none";
-
-finish.style.display="block";
+    document.getElementById("finish").style.display = "block";
 
 }
 
