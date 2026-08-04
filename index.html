@@ -1,81 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-
-<title>Pairwise Preference Tool</title>
-
-<link rel="stylesheet" href="styles.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple pairwise preference test for ranking creative options.">
+  <title>Pairwise Preference Test</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+  <main class="app-shell">
+    <section id="accessScreen" class="panel access-panel">
+      <div class="brand-mark">S</div>
+      <p class="eyebrow">Private creative study</p>
+      <h1 id="accessTitle">Preference Test</h1>
+      <p class="lede">Enter your access code to begin. Your responses are saved in this browser as you go.</p>
 
-<h1 id="title"></h1>
+      <form id="accessForm" class="access-form">
+        <label for="participantId">Participant name or ID</label>
+        <input id="participantId" name="participantId" type="text" autocomplete="name" placeholder="e.g. Tester 014" required>
 
-<h3 id="progress"></h3>
+        <label for="accessCode">Access code</label>
+        <input id="accessCode" name="accessCode" type="password" autocomplete="current-password" placeholder="Enter code" required>
 
-<div class="comparison">
+        <p id="accessError" class="form-error" role="alert"></p>
+        <button class="primary-button" type="submit">Begin test</button>
+      </form>
+    </section>
 
-<div class="card">
+    <section id="testScreen" class="test-screen hidden" aria-live="polite">
+      <header class="test-header">
+        <div>
+          <p class="eyebrow">Pairwise preference study</p>
+          <h1 id="title">Preference Test</h1>
+          <p id="instructions" class="lede"></p>
+        </div>
+        <div class="progress-card">
+          <span id="progressLabel">Comparison</span>
+          <strong id="progress">1 / 1</strong>
+        </div>
+      </header>
 
-<img id="leftImage">
+      <div class="progress-track" aria-hidden="true">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
 
-<h2 id="leftName"></h2>
+      <section id="comparisonArea">
+        <div class="comparison">
+          <article class="card" id="leftCard">
+            <div class="image-frame">
+              <img id="leftImage" alt="Left option">
+            </div>
+            <h2 id="leftName"></h2>
+          </article>
 
-</div>
+          <div class="versus" aria-hidden="true">VS</div>
 
-<div class="card">
+          <article class="card" id="rightCard">
+            <div class="image-frame">
+              <img id="rightImage" alt="Right option">
+            </div>
+            <h2 id="rightName"></h2>
+          </article>
+        </div>
 
-<img id="rightImage">
+        <section class="response-panel">
+          <div class="slider-copy">
+            <span id="leftPreferenceLabel">Prefer left</span>
+            <strong id="preferenceText">No preference</strong>
+            <span id="rightPreferenceLabel">Prefer right</span>
+          </div>
 
-<h2 id="rightName"></h2>
+          <input type="range" id="preference" min="-5" max="5" step="1" value="0" aria-label="Strength of preference">
 
-</div>
+          <div class="scale-labels" aria-hidden="true">
+            <span>Strongly</span>
+            <span>Neutral</span>
+            <span>Strongly</span>
+          </div>
 
-</div>
+          <label for="comment">Why did you choose this option? <span>Optional</span></label>
+          <textarea id="comment" placeholder="Share what stood out, what felt clearer, or what influenced your choice."></textarea>
 
-<div class="slider">
+          <div class="actions">
+            <button id="saveExitButton" class="secondary-button" type="button">Save progress</button>
+            <button id="nextButton" class="primary-button" type="button">Submit & continue</button>
+          </div>
+          <p id="saveStatus" class="save-status" role="status"></p>
+        </section>
+      </section>
 
-<span>Strongly Prefer Left</span>
+      <section id="finish" class="panel finish-panel hidden">
+        <div class="success-icon">✓</div>
+        <p class="eyebrow">Complete</p>
+        <h2>Thanks for your input.</h2>
+        <p>Your comparisons have been saved. Download the detailed responses or the calculated ranking below.</p>
 
-<input
-type="range"
-id="preference"
-min="-5"
-max="5"
-value="0">
+        <div id="rankingPreview" class="ranking-preview"></div>
 
-<span>Strongly Prefer Right</span>
+        <div class="finish-actions">
+          <button id="exportCSV" class="primary-button" type="button">Export responses CSV</button>
+          <button id="exportRankingsCSV" class="secondary-button" type="button">Export rankings CSV</button>
+          <button id="restartButton" class="text-button" type="button">Start a new response</button>
+        </div>
+      </section>
+    </section>
+  </main>
 
-</div>
-
-<textarea
-id="comment"
-placeholder="Optional comments..."></textarea>
-
-<br>
-
-<button id="nextButton">
-
-Next Comparison
-
-</button>
-
-<div id="finish" style="display:none;">
-
-<h2>Finished!</h2>
-
-<button id="exportCSV">
-
-Export CSV
-
-</button>
-
-</div>
-
-<script src="app.js"></script>
-
+  <noscript>This test requires JavaScript to run.</noscript>
+  <script src="app.js"></script>
 </body>
 </html>
