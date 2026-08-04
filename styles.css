@@ -24,6 +24,7 @@ body {
 
 button, input, textarea { font: inherit; }
 button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
 [hidden], .hidden { display: none !important; }
 
 .app-shell {
@@ -98,10 +99,11 @@ input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px
   border-radius: 11px;
   padding: 11px 17px;
   font-weight: 800;
-  transition: transform .15s, background .15s, border-color .15s;
+  transition: transform .15s, background .15s, border-color .15s, opacity .15s;
 }
 .primary-button { color: #fff; background: var(--accent); }
-.primary-button:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.primary-button:hover:not(:disabled) { background: var(--accent-dark); transform: translateY(-1px); }
+.primary-button:disabled { opacity: .58; background: #8f86ef; }
 .secondary-button { color: var(--ink); background: #fff; border: 1px solid #d8dce5; }
 .secondary-button:hover { border-color: #b8bfcc; transform: translateY(-1px); }
 .text-button { color: var(--accent); background: transparent; }
