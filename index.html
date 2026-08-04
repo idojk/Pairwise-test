@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Pairwise Preference Tool</title>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<h1 id="title"></h1>
+
+<h3 id="progress"></h3>
+
+<div class="comparison">
+
+<div class="card">
+
+<img id="leftImage">
+
+<h2 id="leftName"></h2>
+
+</div>
+
+<div class="card">
+
+<img id="rightImage">
+
+<h2 id="rightName"></h2>
+
+</div>
+
+</div>
+
+<div class="slider">
+
+<span>Strongly Prefer Left</span>
+
+<input
+type="range"
+id="preference"
+min="-5"
+max="5"
+value="0">
+
+<span>Strongly Prefer Right</span>
+
+</div>
+
+<textarea
+id="comment"
+placeholder="Optional comments..."></textarea>
+
+<br>
+
+<button id="nextButton">
+
+Next Comparison
+
+</button>
+
+<div id="finish" style="display:none;">
+
+<h2>Finished!</h2>
+
+<button id="exportCSV">
+
+Export CSV
+
+</button>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
