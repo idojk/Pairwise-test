@@ -1,21 +1,36 @@
 {
-  "testName": "Logo Preference Test",
-  "instructions": "Compare each pair of images and rate your preference.",
+  "testName": "Burger Photo Preference Test",
+  "instructions": "Imagine you are ordering a burger on Uber Eats. Compare each pair and rate which presentation makes you more likely to order.",
   "items": [
     {
       "id": "1",
-      "name": "Image 1",
+      "name": "Burger Option 1",
       "image": "images/image1.jpg"
     },
     {
       "id": "2",
-      "name": "Image 2",
+      "name": "Burger Option 2",
       "image": "images/image2.jpg"
     },
     {
       "id": "3",
-      "name": "Image 3",
+      "name": "Burger Option 3",
       "image": "images/image3.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Burger Option 4",
+      "image": "images/image4.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Burger Option 5",
+      "image": "images/image5.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Burger Option 6",
+      "image": "images/image6.jpg"
     }
   ]
 }
