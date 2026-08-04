@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="A simple pairwise preference test for ranking creative options.">
   <title>Pairwise Preference Test</title>
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="mobile-v8.css?v=1">
 </head>
 <body>
   <main class="app-shell">
@@ -46,15 +47,15 @@
 
       <section id="comparisonArea">
         <div class="comparison">
-          <article class="card" id="leftCard">
-            <div class="image-frame"><img id="leftImage" alt="Left option"></div>
+          <article class="card protected-content" id="leftCard">
+            <div class="image-frame"><img id="leftImage" alt="Left option" draggable="false"></div>
             <h2 id="leftName"></h2>
           </article>
 
           <div class="versus" aria-hidden="true">VS</div>
 
-          <article class="card" id="rightCard">
-            <div class="image-frame"><img id="rightImage" alt="Right option"></div>
+          <article class="card protected-content" id="rightCard">
+            <div class="image-frame"><img id="rightImage" alt="Right option" draggable="false"></div>
             <h2 id="rightName"></h2>
           </article>
         </div>
@@ -98,6 +99,7 @@
   </main>
 
   <noscript>This test requires JavaScript to run.</noscript>
-  <script src="app-v7.js?v=1"></script>
+  <script src="app-v7.js?v=2"></script>
+  <script src="protection-v8.js?v=1"></script>
 </body>
 </html>
