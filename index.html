@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A simple pairwise preference test for ranking creative options.">
   <title>Pairwise Preference Test</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <main class="app-shell">
@@ -27,7 +27,7 @@
       </form>
     </section>
 
-    <section id="testScreen" class="test-screen hidden" aria-live="polite">
+    <section id="testScreen" class="test-screen" hidden aria-live="polite">
       <header class="test-header">
         <div>
           <p class="eyebrow">Pairwise preference study</p>
@@ -35,7 +35,7 @@
           <p id="instructions" class="lede"></p>
         </div>
         <div class="progress-card">
-          <span id="progressLabel">Comparison</span>
+          <span>Comparison</span>
           <strong id="progress">1 / 1</strong>
         </div>
       </header>
@@ -47,35 +47,29 @@
       <section id="comparisonArea">
         <div class="comparison">
           <article class="card" id="leftCard">
-            <div class="image-frame">
-              <img id="leftImage" alt="Left option">
-            </div>
+            <div class="image-frame"><img id="leftImage" alt="Left option"></div>
             <h2 id="leftName"></h2>
           </article>
 
           <div class="versus" aria-hidden="true">VS</div>
 
           <article class="card" id="rightCard">
-            <div class="image-frame">
-              <img id="rightImage" alt="Right option">
-            </div>
+            <div class="image-frame"><img id="rightImage" alt="Right option"></div>
             <h2 id="rightName"></h2>
           </article>
         </div>
 
         <section class="response-panel">
           <div class="slider-copy">
-            <span id="leftPreferenceLabel">Prefer left</span>
+            <span>Prefer left</span>
             <strong id="preferenceText">No preference</strong>
-            <span id="rightPreferenceLabel">Prefer right</span>
+            <span>Prefer right</span>
           </div>
 
           <input type="range" id="preference" min="-5" max="5" step="1" value="0" aria-label="Strength of preference">
 
           <div class="scale-labels" aria-hidden="true">
-            <span>Strongly</span>
-            <span>Neutral</span>
-            <span>Strongly</span>
+            <span>Strongly</span><span>Neutral</span><span>Strongly</span>
           </div>
 
           <label for="comment">Why did you choose this option? <span>Optional</span></label>
@@ -89,14 +83,12 @@
         </section>
       </section>
 
-      <section id="finish" class="panel finish-panel hidden">
+      <section id="finish" class="panel finish-panel" hidden>
         <div class="success-icon">✓</div>
         <p class="eyebrow">Complete</p>
         <h2>Thanks for your input.</h2>
-        <p>Your comparisons have been saved. Download the detailed responses or the calculated ranking below.</p>
-
+        <p>Your comparisons have been saved. Download the detailed responses or calculated ranking below.</p>
         <div id="rankingPreview" class="ranking-preview"></div>
-
         <div class="finish-actions">
           <button id="exportCSV" class="primary-button" type="button">Export responses CSV</button>
           <button id="exportRankingsCSV" class="secondary-button" type="button">Export rankings CSV</button>
@@ -107,6 +99,6 @@
   </main>
 
   <noscript>This test requires JavaScript to run.</noscript>
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
