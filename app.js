@@ -4,9 +4,11 @@ let responses = [];
 let current = 0;
 let participant = "";
 let pairStartedAt = 0;
+let countdownTimer = null;
 
 const $ = (id) => document.getElementById(id);
 const storageKey = "pairwise-test-progress-v4";
+const MIN_VIEW_TIME_MS = 10000;
 
 const ui = {
   accessScreen: $("accessScreen"),
@@ -126,6 +128,30 @@ function showPair() {
   ui.saveStatus.textContent = "";
   updatePreferenceUI();
   pairStartedAt = performance.now();
+  startMinimumViewCountdown();
+}
+
+function startMinimumViewCountdown() {
+  if (countdownTimer) clearInterval(countdownTimer);
+  ui.nextButton.disabled = true;
+
+  const update = () => {
+    const elapsed = performance.now() - pairStartedAt;
+    const remaining = Math.max(0, Math.ceil((MIN_VIEW_TIME_MS - elapsed) / 1000));
+
+    if (remaining > 0) {
+      ui.nextButton.textContent = `Review options (${remaining}s)`;
+      return;
+    }
+
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+    ui.nextButton.disabled = false;
+    ui.nextButton.textContent = "Submit & continue";
+  };
+
+  update();
+  countdownTimer = setInterval(update, 200);
 }
 
 ui.preference.addEventListener("input", updatePreferenceUI);
@@ -145,6 +171,9 @@ function updatePreferenceUI() {
 }
 
 ui.nextButton.addEventListener("click", () => {
+  const elapsed = performance.now() - pairStartedAt;
+  if (elapsed < MIN_VIEW_TIME_MS || ui.nextButton.disabled) return;
+
   const [left, right] = pairs[current];
   const value = Number(ui.preference.value);
   responses.push({
@@ -158,7 +187,7 @@ ui.nextButton.addEventListener("click", () => {
     winner: value < 0 ? left.name : value > 0 ? right.name : "Tie",
     strength: Math.abs(value),
     comment: ui.comment.value.trim(),
-    responseTimeMs: Math.round(performance.now() - pairStartedAt),
+    responseTimeMs: Math.round(elapsed),
     timestamp: new Date().toISOString()
   });
   current += 1;
@@ -189,6 +218,7 @@ function restoreProgress() {
 }
 
 function finishTest() {
+  if (countdownTimer) clearInterval(countdownTimer);
   showOnly("finish");
   ui.progress.textContent = `${pairs.length} / ${pairs.length}`;
   ui.progressBar.style.width = "100%";
