@@ -1,0 +1,21 @@
+{
+  "testName": "Logo Preference Test",
+  "instructions": "Compare each pair of images and rate your preference.",
+  "items": [
+    {
+      "id": "1",
+      "name": "Image 1",
+      "image": "images/image1.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Image 2",
+      "image": "images/image2.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Image 3",
+      "image": "images/image3.jpg"
+    }
+  ]
+}
