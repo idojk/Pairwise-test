@@ -1,0 +1,30 @@
+#backButton:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actions {
+  flex-wrap: wrap;
+}
+
+#backButton {
+  min-width: 104px;
+}
+
+@media (max-width: 760px) {
+  .actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 7px !important;
+  }
+
+  #backButton,
+  #saveExitButton {
+    grid-column: auto;
+  }
+
+  #nextButton {
+    grid-column: 1 / -1;
+  }
+}
