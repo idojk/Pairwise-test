@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="A multi-project pairwise preference test for ranking creative options.">
   <title>Pairwise Preference Test</title>
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
   <link rel="stylesheet" href="mobile-v8.css?v=1">
 </head>
 <body>
@@ -30,34 +30,54 @@
           <h1 id="title">Preference Test</h1>
           <p id="instructions" class="lede"></p>
         </div>
-        <div class="progress-card"><span>Comparison</span><strong id="progress">1 / 1</strong></div>
+        <div class="progress-card">
+          <span>Comparison</span>
+          <strong id="progress">1 / 1</strong>
+        </div>
       </header>
+
       <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
+
       <section id="comparisonArea">
         <div class="comparison">
           <article class="card protected-content" id="leftCard">
-            <div class="image-frame"><img id="leftImage" alt="Option A" draggable="false"></div><h2 id="leftName">A</h2>
+            <div class="image-frame"><img id="leftImage" alt="Option A" draggable="false"></div>
+            <h2 id="leftName">A</h2>
           </article>
           <div class="versus" aria-hidden="true">VS</div>
           <article class="card protected-content" id="rightCard">
-            <div class="image-frame"><img id="rightImage" alt="Option B" draggable="false"></div><h2 id="rightName">B</h2>
+            <div class="image-frame"><img id="rightImage" alt="Option B" draggable="false"></div>
+            <h2 id="rightName">B</h2>
           </article>
         </div>
-        <section class="response-panel">
-          <div class="slider-copy"><span>Prefer A</span><strong id="preferenceText">No preference</strong><span>Prefer B</span></div>
-          <input type="range" id="preference" min="-5" max="5" step="1" value="0" aria-label="Strength of preference between A and B">
-          <div class="scale-labels" aria-hidden="true"><span>Strongly</span><span>Neutral</span><span>Strongly</span></div>
-          <label for="comment">Why did you choose this option? <span>Optional</span></label>
-          <textarea id="comment" placeholder="Share what stood out, what felt clearer, or what influenced your choice."></textarea>
-          <div class="actions">
-            <button id="saveExitButton" class="secondary-button" type="button">Save progress</button>
-            <button id="nextButton" class="primary-button" type="button">Submit & continue</button>
+
+        <section class="response-workspace">
+          <div class="rating-panel response-panel">
+            <div class="slider-copy">
+              <span>Prefer A</span>
+              <strong id="preferenceText">No preference</strong>
+              <span>Prefer B</span>
+            </div>
+            <input type="range" id="preference" min="-5" max="5" step="1" value="0" aria-label="Strength of preference between A and B">
+            <div class="scale-labels" aria-hidden="true"><span>Strongly</span><span>Neutral</span><span>Strongly</span></div>
+            <div class="actions">
+              <button id="saveExitButton" class="secondary-button" type="button">Save progress</button>
+              <button id="nextButton" class="primary-button" type="button">Submit &amp; continue</button>
+            </div>
+            <p id="saveStatus" class="save-status" role="status"></p>
           </div>
-          <p id="saveStatus" class="save-status" role="status"></p>
+
+          <aside class="comment-bubble">
+            <label for="comment">Why did you choose this option? <span>Optional</span></label>
+            <textarea id="comment" placeholder="Share what stood out, what felt clearer, or what influenced your choice."></textarea>
+          </aside>
         </section>
       </section>
+
       <section id="finish" class="panel finish-panel" hidden>
-        <div class="success-icon">✓</div><p class="eyebrow">Complete</p><h2>Thanks for your input.</h2>
+        <div class="success-icon">✓</div>
+        <p class="eyebrow">Complete</p>
+        <h2>Thanks for your input.</h2>
         <p>Your comparisons have been saved. Download your detailed responses below.</p>
         <div id="rankingPreview" class="ranking-preview"></div>
         <div class="finish-actions">
@@ -67,6 +87,7 @@
       </section>
     </section>
   </main>
+
   <noscript>This test requires JavaScript to run.</noscript>
   <script src="app-v9.js?v=2"></script>
   <script src="protection-v8.js?v=1"></script>
