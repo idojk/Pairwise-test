@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="A simple pairwise preference test for ranking creative options.">
+  <meta name="description" content="A multi-project pairwise preference test for ranking creative options.">
   <title>Pairwise Preference Test</title>
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=9">
   <link rel="stylesheet" href="mobile-v8.css?v=1">
 </head>
 <body>
@@ -13,15 +13,15 @@
     <section id="accessScreen" class="panel access-panel">
       <div class="brand-mark">S</div>
       <p class="eyebrow">Private creative study</p>
-      <h1 id="accessTitle">Preference Test</h1>
-      <p class="lede">Enter your access code to begin. Your responses are saved in this browser as you go.</p>
+      <h1 id="accessTitle">Preference Tests</h1>
+      <p class="lede">Enter your participant ID to begin. Your responses are saved in this browser as you go.</p>
 
       <form id="accessForm" class="access-form">
         <label for="participantId">Participant name or ID</label>
         <input id="participantId" name="participantId" type="text" autocomplete="name" placeholder="e.g. Tester 014" required>
 
-        <label for="accessCode">Access code</label>
-        <input id="accessCode" name="accessCode" type="password" autocomplete="current-password" placeholder="Enter code" required>
+        <label for="accessCode">Access code <span>(if provided)</span></label>
+        <input id="accessCode" name="accessCode" type="password" autocomplete="current-password" placeholder="Enter code">
 
         <p id="accessError" class="form-error" role="alert"></p>
         <button class="primary-button" type="submit">Begin test</button>
@@ -48,26 +48,26 @@
       <section id="comparisonArea">
         <div class="comparison">
           <article class="card protected-content" id="leftCard">
-            <div class="image-frame"><img id="leftImage" alt="Left option" draggable="false"></div>
-            <h2 id="leftName"></h2>
+            <div class="image-frame"><img id="leftImage" alt="Option A" draggable="false"></div>
+            <h2 id="leftName">A</h2>
           </article>
 
           <div class="versus" aria-hidden="true">VS</div>
 
           <article class="card protected-content" id="rightCard">
-            <div class="image-frame"><img id="rightImage" alt="Right option" draggable="false"></div>
-            <h2 id="rightName"></h2>
+            <div class="image-frame"><img id="rightImage" alt="Option B" draggable="false"></div>
+            <h2 id="rightName">B</h2>
           </article>
         </div>
 
         <section class="response-panel">
           <div class="slider-copy">
-            <span>Prefer left</span>
+            <span>Prefer A</span>
             <strong id="preferenceText">No preference</strong>
-            <span>Prefer right</span>
+            <span>Prefer B</span>
           </div>
 
-          <input type="range" id="preference" min="-5" max="5" step="1" value="0" aria-label="Strength of preference">
+          <input type="range" id="preference" min="-5" max="5" step="1" value="0" aria-label="Strength of preference between A and B">
 
           <div class="scale-labels" aria-hidden="true">
             <span>Strongly</span><span>Neutral</span><span>Strongly</span>
@@ -78,7 +78,7 @@
 
           <div class="actions">
             <button id="saveExitButton" class="secondary-button" type="button">Save progress</button>
-            <button id="nextButton" class="primary-button" type="button">Review options (10s)</button>
+            <button id="nextButton" class="primary-button" type="button">Submit & continue</button>
           </div>
           <p id="saveStatus" class="save-status" role="status"></p>
         </section>
@@ -99,7 +99,7 @@
   </main>
 
   <noscript>This test requires JavaScript to run.</noscript>
-  <script src="app-v7.js?v=2"></script>
+  <script src="app-v9.js?v=1"></script>
   <script src="protection-v8.js?v=1"></script>
 </body>
 </html>
