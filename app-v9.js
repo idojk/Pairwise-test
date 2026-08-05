@@ -4,19 +4,20 @@ let pairs = [];
 let responses = [];
 let current = 0;
 let participant = "";
+let sessionId = "";
 let pairStartedAt = 0;
 let countdownTimer = null;
 
 const $ = (id) => document.getElementById(id);
 const ui = {
   accessScreen: $("accessScreen"), testScreen: $("testScreen"), accessForm: $("accessForm"),
-  accessTitle: $("accessTitle"), participantId: $("participantId"), accessCode: $("accessCode"),
-  accessError: $("accessError"), title: $("title"), instructions: $("instructions"), progress: $("progress"),
-  progressBar: $("progressBar"), comparisonArea: $("comparisonArea"), leftImage: $("leftImage"),
-  rightImage: $("rightImage"), leftName: $("leftName"), rightName: $("rightName"), leftCard: $("leftCard"),
-  rightCard: $("rightCard"), preference: $("preference"), preferenceText: $("preferenceText"), comment: $("comment"),
-  nextButton: $("nextButton"), saveExitButton: $("saveExitButton"), saveStatus: $("saveStatus"), finish: $("finish"),
-  rankingPreview: $("rankingPreview"), exportCSV: $("exportCSV"), restartButton: $("restartButton")
+  accessTitle: $("accessTitle"), participantId: $("participantId"), accessError: $("accessError"),
+  title: $("title"), instructions: $("instructions"), progress: $("progress"), progressBar: $("progressBar"),
+  comparisonArea: $("comparisonArea"), leftImage: $("leftImage"), rightImage: $("rightImage"),
+  leftName: $("leftName"), rightName: $("rightName"), leftCard: $("leftCard"), rightCard: $("rightCard"),
+  preference: $("preference"), preferenceText: $("preferenceText"), comment: $("comment"),
+  nextButton: $("nextButton"), saveExitButton: $("saveExitButton"), saveStatus: $("saveStatus"),
+  finish: $("finish"), rankingPreview: $("rankingPreview"), exportCSV: $("exportCSV"), restartButton: $("restartButton")
 };
 
 function showOnly(screen) {
@@ -35,11 +36,8 @@ async function initialize() {
     const manifest = await loadCsv("projects.csv");
     const projectIds = manifest.map((row) => String(row.project_id || "").trim()).filter(Boolean);
     if (!projectIds.length) throw new Error("projects.csv does not list any project folders.");
-
-    projects = await Promise.all(projectIds.map(loadProject));
-    projects = projects.filter((project) => project.items.length >= 2);
+    projects = (await Promise.all(projectIds.map(loadProject))).filter((project) => project.items.length >= 2);
     if (!projects.length) throw new Error("Each project needs at least two images.");
-
     ui.accessTitle.textContent = settings.study_title || "Preference Tests";
     ui.instructions.textContent = settings.instructions || "Compare each pair and rate your preference.";
     ui.participantId.value = localStorage.getItem("pairwise-last-participant") || "";
@@ -54,20 +52,16 @@ async function loadProject(projectId) {
   const rows = await loadCsv(`${basePath}project.csv`);
   let title = `Project ${projectId}`;
   const items = [];
-
   rows.forEach((row, index) => {
     const type = String(row.type || "").trim().toLowerCase();
     const value = String(row.value || "").trim();
     if (type === "title" && value) title = value;
-    if (type === "image" && value) {
-      items.push({
-        id: `${projectId}-${index + 1}`,
-        file: value.split("/").pop(),
-        image: new URL(value, new URL(basePath, window.location.href)).href
-      });
-    }
+    if (type === "image" && value) items.push({
+      id: `${projectId}-${index + 1}`,
+      file: value.split("/").pop(),
+      image: new URL(value, new URL(basePath, window.location.href)).href
+    });
   });
-
   return { id: projectId, title, items };
 }
 
@@ -86,24 +80,22 @@ function buildPairs() {
   shuffle(pairs);
 }
 
+function projectSignature() {
+  return projects.map((p) => `${p.id}:${p.items.map((i) => i.image).join("|")}`).join("||");
+}
+
 function storageKey() {
-  const signature = projects.map((p) => `${p.id}:${p.items.map((i) => i.image).join("|")}`).join("||");
-  return `pairwise-progress:${signature}`;
+  return `pairwise-progress:${projectSignature()}:${participant.toLowerCase()}`;
 }
 
 ui.accessForm.addEventListener("submit", (event) => {
   event.preventDefault();
   ui.accessError.textContent = "";
   participant = ui.participantId.value.trim();
-  if (!participant) return void (ui.accessError.textContent = "Enter a participant name or ID.");
-
-  const requiredCode = String(settings.access_code || "").trim();
-  if (requiredCode && ui.accessCode.value.trim() !== requiredCode) {
-    return void (ui.accessError.textContent = "That access code is not correct.");
-  }
-
+  if (!participant) return void (ui.accessError.textContent = "Enter your name.");
   localStorage.setItem("pairwise-last-participant", participant);
   restoreProgress();
+  if (!sessionId) sessionId = new Date().toISOString();
   current >= pairs.length ? finishTest() : showPair();
 });
 
@@ -111,7 +103,6 @@ function showPair() {
   if (current >= pairs.length) return finishTest();
   showOnly("test");
   const pair = pairs[current];
-
   ui.title.textContent = pair.projectTitle;
   ui.leftImage.src = pair.left.image;
   ui.rightImage.src = pair.right.image;
@@ -131,14 +122,12 @@ function startCountdown() {
   clearInterval(countdownTimer);
   const minimumMs = Math.max(0, Number(settings.minimum_view_seconds || 0) * 1000);
   ui.nextButton.disabled = minimumMs > 0;
-
   const update = () => {
     const remaining = Math.max(0, Math.ceil((minimumMs - (performance.now() - pairStartedAt)) / 1000));
     ui.nextButton.textContent = remaining ? `Review options (${remaining}s)` : "Submit & continue";
     ui.nextButton.disabled = remaining > 0;
     if (!remaining) clearInterval(countdownTimer);
   };
-
   update();
   countdownTimer = setInterval(update, 200);
 }
@@ -159,27 +148,14 @@ ui.nextButton.addEventListener("click", () => {
   if (ui.nextButton.disabled) return;
   const pair = pairs[current];
   const value = Number(ui.preference.value);
-  const elapsed = Math.round(performance.now() - pairStartedAt);
-
   responses.push({
-    participant,
-    comparison: current + 1,
-    projectId: pair.projectId,
-    projectTitle: pair.projectTitle,
-    leftLabel: "A",
-    leftId: pair.left.id,
-    leftImage: pair.left.file,
-    rightLabel: "B",
-    rightId: pair.right.id,
-    rightImage: pair.right.file,
-    preference: value,
-    winner: value < 0 ? "A" : value > 0 ? "B" : "Tie",
-    strength: Math.abs(value),
-    comment: ui.comment.value.trim(),
-    responseTimeMs: elapsed,
+    sessionId, participant, comparison: current + 1, projectId: pair.projectId, projectTitle: pair.projectTitle,
+    leftLabel: "A", leftId: pair.left.id, leftImage: pair.left.file,
+    rightLabel: "B", rightId: pair.right.id, rightImage: pair.right.file,
+    preference: value, winner: value < 0 ? "A" : value > 0 ? "B" : "Tie", strength: Math.abs(value),
+    comment: ui.comment.value.trim(), responseTimeMs: Math.round(performance.now() - pairStartedAt),
     timestamp: new Date().toISOString()
   });
-
   current += 1;
   saveProgress();
   showPair();
@@ -191,13 +167,15 @@ ui.saveExitButton.addEventListener("click", () => {
 });
 
 function saveProgress() {
-  localStorage.setItem(storageKey(), JSON.stringify({ participant, current, pairs, responses }));
+  if (!participant) return;
+  localStorage.setItem(storageKey(), JSON.stringify({ participant, sessionId, current, pairs, responses }));
 }
 
 function restoreProgress() {
   try {
     const data = JSON.parse(localStorage.getItem(storageKey()) || "null");
     if (data && data.participant === participant && Array.isArray(data.pairs) && data.pairs.length === pairs.length) {
+      sessionId = data.sessionId || "";
       current = Number(data.current) || 0;
       pairs = data.pairs;
       responses = Array.isArray(data.responses) ? data.responses : [];
@@ -217,14 +195,6 @@ function finishTest() {
   saveProgress();
 }
 
-function renderRankings() {
-  const grouped = calculateRankings();
-  ui.rankingPreview.innerHTML = grouped.map((project) => {
-    const rows = project.items.map((item, index) => `<div class="rank-row"><span class="rank-number">${index + 1}</span><strong>${escapeHtml(item.file)}</strong><span class="rank-score">${item.score}</span></div>`).join("");
-    return `<div class="project-ranking"><h3>${escapeHtml(project.title)}</h3>${rows}</div>`;
-  }).join("");
-}
-
 function calculateRankings() {
   return projects.map((project) => {
     const scores = new Map(project.items.map((item) => [item.file, 0]));
@@ -232,33 +202,32 @@ function calculateRankings() {
       scores.set(r.leftImage, (scores.get(r.leftImage) || 0) - r.preference);
       scores.set(r.rightImage, (scores.get(r.rightImage) || 0) + r.preference);
     });
-    return {
-      id: project.id,
-      title: project.title,
-      items: [...scores].map(([file, score]) => ({ file, score })).sort((a, b) => b.score - a.score)
-    };
+    return { title: project.title, items: [...scores].map(([file, score]) => ({ file, score })).sort((a, b) => b.score - a.score) };
   });
 }
 
+function renderRankings() {
+  ui.rankingPreview.innerHTML = calculateRankings().map((project) => {
+    const rows = project.items.map((item, index) => `<div class="rank-row"><span class="rank-number">${index + 1}</span><strong>${escapeHtml(item.file)}</strong><span class="rank-score">${item.score}</span></div>`).join("");
+    return `<div class="project-ranking"><h3>${escapeHtml(project.title)}</h3>${rows}</div>`;
+  }).join("");
+}
+
 ui.exportCSV.addEventListener("click", () => {
-  const rows = [[
-    "Participant","Comparison","Project ID","Project Title","Left Label","Left ID","Left Image",
-    "Right Label","Right ID","Right Image","Preference","Winner","Strength","Comment","Response Time (ms)","Timestamp"
-  ]];
-  responses.forEach((r) => rows.push([
-    r.participant,r.comparison,r.projectId,r.projectTitle,r.leftLabel,r.leftId,r.leftImage,
-    r.rightLabel,r.rightId,r.rightImage,r.preference,r.winner,r.strength,r.comment,r.responseTimeMs,r.timestamp
-  ]));
-  downloadCsv(rows, `${safeFileName(settings.study_title)}-${safeFileName(participant)}-responses.csv`);
+  const rows = [["Session ID","Participant","Comparison","Project ID","Project Title","Left Label","Left ID","Left Image","Right Label","Right ID","Right Image","Preference","Winner","Strength","Comment","Response Time (ms)","Timestamp"]];
+  responses.forEach((r) => rows.push([r.sessionId,r.participant,r.comparison,r.projectId,r.projectTitle,r.leftLabel,r.leftId,r.leftImage,r.rightLabel,r.rightId,r.rightImage,r.preference,r.winner,r.strength,r.comment,r.responseTimeMs,r.timestamp]));
+  const date = (sessionId || new Date().toISOString()).slice(0, 10);
+  const count = responses.length;
+  downloadCsv(rows, `${safeFileName(participant)} - ${date} - ${count} comparisons.csv`);
 });
 
 ui.restartButton.addEventListener("click", () => {
-  localStorage.removeItem(storageKey());
+  if (participant) localStorage.removeItem(storageKey());
   responses = [];
   current = 0;
   participant = "";
+  sessionId = "";
   buildPairs();
-  ui.accessCode.value = "";
   ui.participantId.value = "";
   showOnly("access");
 });
@@ -276,10 +245,7 @@ async function loadKeyValueCsv(path, keyColumn, valueColumn) {
 
 function parseCsv(text) {
   const rows = [];
-  let row = [];
-  let field = "";
-  let quoted = false;
-
+  let row = [], field = "", quoted = false;
   for (let i = 0; i < text.length; i += 1) {
     const char = text[i];
     if (quoted) {
@@ -292,7 +258,6 @@ function parseCsv(text) {
     else field += char;
   }
   if (field.length || row.length) { row.push(field.replace(/\r$/, "")); rows.push(row); }
-
   const clean = rows.filter((r) => r.some((cell) => String(cell).trim() !== ""));
   const headers = (clean.shift() || []).map((header) => header.trim());
   return clean.map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ""])));
@@ -319,7 +284,7 @@ function downloadCsv(rows, filename) {
 }
 
 function safeFileName(value) {
-  return String(value || "results").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "results";
+  return String(value || "participant").trim().replace(/[<>:"/\\|?*\u0000-\u001F]/g, "-").replace(/\s+/g, " ") || "participant";
 }
 
 function escapeHtml(value) {
