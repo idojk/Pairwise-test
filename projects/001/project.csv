@@ -1,8 +1,5 @@
 type,value
-title,Pairwise Preference Test #001
+title,Which logo do you prefer?
 image,image1.jpg
 image,image2.jpg
 image,image3.jpg
-image,image4.jpg
-image,image5.jpg
-image,image6.jpg
