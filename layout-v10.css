@@ -1,28 +1,41 @@
-/* Larger desktop comparison layout */
+/* Desktop comparison layout sized to remain visible within a normal laptop viewport. */
 .app-shell {
-  width: min(1460px, calc(100% - 32px));
+  width: min(1280px, calc(100% - 28px));
+  padding: 12px 0 20px;
+}
+
+.test-header {
+  padding: 13px 18px;
+}
+
+.test-header h1 {
+  font-size: clamp(22px, 2.5vw, 30px);
+}
+
+.progress-track {
+  margin: 8px 3px 10px;
 }
 
 .comparison {
-  grid-template-columns: minmax(0, 1fr) 54px minmax(0, 1fr);
-  gap: 20px;
-  max-width: 1320px;
+  grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
+  gap: 16px;
+  max-width: 1160px;
 }
 
 .card {
   min-width: 0;
-  padding: 12px;
-  border-radius: 22px;
+  padding: 10px;
+  border-radius: 20px;
 }
 
 .image-frame {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: clamp(390px, 52vh, 620px);
+  height: clamp(250px, 38vh, 430px);
   padding: 10px;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 15px;
   background: #fff;
 }
 
@@ -34,54 +47,53 @@
   max-height: 100% !important;
   object-fit: contain !important;
   object-position: center center !important;
-  image-rendering: auto;
 }
 
 .card h2 {
-  padding: 12px 5px 2px;
-  font-size: 20px;
+  padding: 9px 5px 1px;
+  font-size: 18px;
 }
 
 .versus {
-  width: 48px;
-  height: 48px;
-  font-size: 12px;
+  width: 44px;
+  height: 44px;
+  font-size: 11px;
 }
 
 .response-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(330px, .7fr);
+  grid-template-columns: minmax(0, 1.65fr) minmax(290px, .72fr);
   align-items: stretch;
-  gap: 18px;
-  max-width: 1320px;
-  margin: 18px auto 0;
+  gap: 14px;
+  max-width: 1160px;
+  margin: 12px auto 0;
 }
 
 .rating-panel.response-panel {
   max-width: none;
   margin: 0;
-  padding: 28px 34px 22px;
-  border-radius: 22px;
+  padding: 20px 25px 16px;
+  border-radius: 20px;
 }
 
 .slider-copy {
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .slider-copy strong {
-  font-size: 24px;
+  font-size: 21px;
 }
 
-/* Custom centered preference control. The purple fill grows only from 50%. */
 input[type="range"] {
   --fill-start: 50%;
   --fill-end: 50%;
+  --thumb-icon: none;
   -webkit-appearance: none;
   appearance: none;
   display: block;
   width: 100%;
-  height: 64px;
-  margin: 18px 0 6px;
+  height: 58px;
+  margin: 12px 0 3px;
   padding: 0;
   border: 0;
   outline: none;
@@ -90,7 +102,7 @@ input[type="range"] {
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 10px;
+  height: 8px;
   border: 1px solid #b9bec8;
   border-radius: 999px;
   background: linear-gradient(
@@ -104,25 +116,25 @@ input[type="range"]::-webkit-slider-runnable-track {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 58px;
-  height: 58px;
-  margin-top: -25px;
+  width: 54px;
+  height: 54px;
+  margin-top: -24px;
   border: 2px solid #e1e4eb;
   border-radius: 50%;
   background-color: #fff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 40'%3E%3Cpath d='M23 7 9 20l14 13M41 7l14 13-14 13M10 20h44' fill='none' stroke='%23111827' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: var(--thumb-icon);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 38px 25px;
-  box-shadow: 0 8px 22px rgba(17,24,39,.18);
+  background-size: 34px 22px;
+  box-shadow: 0 7px 20px rgba(17,24,39,.17);
 }
 
 input[type="range"]:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 5px rgba(109,93,252,.18), 0 8px 22px rgba(17,24,39,.18);
+  box-shadow: 0 0 0 5px rgba(109,93,252,.18), 0 7px 20px rgba(17,24,39,.17);
 }
 
 input[type="range"]::-moz-range-track {
-  height: 10px;
+  height: 8px;
   border: 1px solid #b9bec8;
   border-radius: 999px;
   background: linear-gradient(
@@ -133,38 +145,36 @@ input[type="range"]::-moz-range-track {
   );
 }
 
-input[type="range"]::-moz-range-progress {
-  background: transparent;
-}
+input[type="range"]::-moz-range-progress { background: transparent; }
 
 input[type="range"]::-moz-range-thumb {
-  width: 58px;
-  height: 58px;
+  width: 54px;
+  height: 54px;
   border: 2px solid #e1e4eb;
   border-radius: 50%;
   background-color: #fff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 40'%3E%3Cpath d='M23 7 9 20l14 13M41 7l14 13-14 13M10 20h44' fill='none' stroke='%23111827' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: var(--thumb-icon);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 38px 25px;
-  box-shadow: 0 8px 22px rgba(17,24,39,.18);
+  background-size: 34px 22px;
+  box-shadow: 0 7px 20px rgba(17,24,39,.17);
 }
 
 .scale-labels {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   color: #98a2b3;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .actions {
-  gap: 12px;
-  margin-top: 18px;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .actions button {
-  min-height: 58px;
-  padding: 15px 26px;
-  font-size: 17px;
+  min-height: 50px;
+  padding: 12px 21px;
+  font-size: 16px;
 }
 
 .comment-bubble {
@@ -172,75 +182,81 @@ input[type="range"]::-moz-range-thumb {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 22px;
+  padding: 18px;
   border: 1px solid rgba(231,234,240,.98);
-  border-radius: 28px 28px 8px 28px;
+  border-radius: 24px 24px 8px 24px;
   background: rgba(255,255,255,.98);
-  box-shadow: 0 18px 48px rgba(17,24,39,.11);
+  box-shadow: 0 15px 38px rgba(17,24,39,.10);
 }
 
 .comment-bubble::after {
   content: "";
   position: absolute;
   right: -1px;
-  bottom: -14px;
-  width: 28px;
-  height: 28px;
+  bottom: -12px;
+  width: 24px;
+  height: 24px;
   background: linear-gradient(135deg, transparent 50%, #fff 50%);
-  filter: drop-shadow(2px 3px 2px rgba(17,24,39,.05));
 }
 
 .comment-bubble label {
-  margin-bottom: 10px;
-  font-size: 15px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 .comment-bubble textarea {
   flex: 1;
-  min-height: 150px;
-  max-height: none;
-  padding: 16px;
-  border-radius: 16px;
-  font-size: 15px;
-  line-height: 1.45;
+  min-height: 105px;
+  max-height: 145px;
+  padding: 13px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.4;
   resize: vertical;
 }
 
-@media (max-height: 850px) and (min-width: 901px) {
-  .image-frame { height: clamp(310px, 43vh, 480px); }
-  .rating-panel.response-panel { padding: 20px 26px 16px; }
-  .comment-bubble { padding: 18px; }
-  .comment-bubble textarea { min-height: 110px; }
+@media (max-height: 760px) and (min-width: 901px) {
+  .app-shell { padding-top: 8px; }
+  .test-header { padding: 10px 15px; }
+  .test-header .lede { display: none; }
+  .image-frame { height: clamp(210px, 32vh, 330px); }
+  .response-workspace { margin-top: 9px; }
+  .rating-panel.response-panel { padding: 15px 20px 12px; }
+  .comment-bubble { padding: 15px; }
+  .comment-bubble textarea { min-height: 80px; max-height: 100px; }
+  input[type="range"] { margin-top: 8px; height: 52px; }
+  .actions { margin-top: 8px; }
+  .actions button { min-height: 44px; }
 }
 
 @media (max-width: 900px) {
   .app-shell { width: min(100% - 18px, 760px); }
   .comparison { grid-template-columns: 1fr; gap: 10px; }
   .versus { margin: -4px auto; }
-  .image-frame { height: min(460px, 50vh); }
+  .image-frame { height: min(390px, 43vh); }
   .response-workspace { grid-template-columns: 1fr; gap: 12px; }
   .comment-bubble { border-radius: 22px; }
   .comment-bubble::after { display: none; }
-  .comment-bubble textarea { min-height: 110px; }
+  .comment-bubble textarea { min-height: 100px; max-height: none; }
 }
 
 @media (max-width: 560px) {
-  .image-frame { height: min(360px, 43vh); }
-  .rating-panel.response-panel { padding: 20px 15px 16px; }
+  .image-frame { height: min(310px, 38vh); }
+  .rating-panel.response-panel { padding: 18px 14px 14px; }
   .slider-copy { grid-template-columns: 1fr 1fr 1fr; font-size: 12px; }
-  .slider-copy strong { font-size: 16px; }
+  .slider-copy strong { font-size: 15px; }
   .slider-copy span:first-child,
   .slider-copy span:last-child { display: block; }
-  input[type="range"] { height: 58px; }
+  input[type="range"] { height: 54px; }
   input[type="range"]::-webkit-slider-thumb {
-    width: 52px;
-    height: 52px;
-    margin-top: -22px;
-    background-size: 34px 22px;
+    width: 48px;
+    height: 48px;
+    margin-top: -21px;
+    background-size: 30px 20px;
   }
   input[type="range"]::-moz-range-thumb {
-    width: 52px;
-    height: 52px;
-    background-size: 34px 22px;
+    width: 48px;
+    height: 48px;
+    background-size: 30px 20px;
   }
 }
