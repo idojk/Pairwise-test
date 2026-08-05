@@ -1,0 +1,307 @@
+/* Final responsive overrides: loaded after all earlier styles. */
+
+/* Use the viewport efficiently on desktop and keep the images dominant. */
+.app-shell {
+  width: min(1360px, calc(100% - 24px));
+  padding: 10px 0 12px;
+}
+
+.test-header {
+  padding: 12px 18px;
+}
+
+.progress-track {
+  margin: 7px 3px 9px;
+}
+
+.comparison {
+  max-width: 1280px;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+}
+
+.card {
+  padding: 7px;
+}
+
+.image-frame {
+  height: clamp(330px, 50vh, 590px);
+  padding: 4px;
+}
+
+.card img {
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+.card h2 {
+  padding: 7px 3px 1px;
+}
+
+.versus {
+  width: 38px;
+  height: 38px;
+}
+
+.response-workspace {
+  max-width: 1280px;
+  margin-top: 9px;
+  gap: 12px;
+}
+
+.rating-panel.response-panel {
+  padding: 15px 20px 10px;
+}
+
+input[type="range"] {
+  margin: 9px 0 1px;
+}
+
+.scale-labels {
+  margin-bottom: 7px;
+}
+
+.actions {
+  margin-top: 7px;
+}
+
+.actions button {
+  min-height: 46px;
+  padding: 10px 20px;
+}
+
+.save-status {
+  min-height: 8px;
+  margin-top: 2px;
+}
+
+.comment-bubble {
+  padding: 15px;
+  border-radius: 22px 22px 7px 22px;
+}
+
+.comment-bubble textarea {
+  min-height: 88px;
+  padding: 11px;
+}
+
+@media (max-height: 780px) and (min-width: 901px) {
+  .image-frame { height: clamp(270px, 43vh, 430px); }
+  .rating-panel.response-panel { padding: 11px 17px 7px; }
+  .comment-bubble { padding: 12px; }
+  .comment-bubble textarea { min-height: 72px; }
+  .actions button { min-height: 42px; }
+}
+
+/* Mobile: keep both options visible side by side and dedicate most space to images. */
+@media (max-width: 760px) {
+  html, body {
+    height: auto !important;
+    min-height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .app-shell {
+    width: calc(100% - 12px) !important;
+    height: auto !important;
+    min-height: 100dvh;
+    padding: 6px 0 14px;
+    overflow: visible !important;
+  }
+
+  .test-screen {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .test-header {
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 10px 11px;
+    border-radius: 14px;
+  }
+
+  .test-header .eyebrow,
+  .test-header .lede {
+    display: none !important;
+  }
+
+  .test-header h1 {
+    margin: 0;
+    font-size: clamp(20px, 6.2vw, 27px);
+    line-height: 1.08;
+  }
+
+  .progress-card {
+    width: auto !important;
+    min-width: 82px;
+    padding: 7px 9px;
+  }
+
+  .progress-track {
+    margin: 6px 2px 8px;
+  }
+
+  #comparisonArea {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .comparison {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) !important;
+    gap: 5px !important;
+    align-items: center;
+  }
+
+  .card {
+    min-width: 0;
+    padding: 4px;
+    border-radius: 15px;
+  }
+
+  .image-frame {
+    width: 100%;
+    height: clamp(210px, 38dvh, 360px) !important;
+    min-height: 210px !important;
+    padding: 3px;
+    border-radius: 11px;
+    background: #fff;
+  }
+
+  .card img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+
+  .card h2 {
+    padding: 6px 2px 2px;
+    font-size: 16px;
+  }
+
+  .versus {
+    width: 28px;
+    height: 28px;
+    margin: 0 !important;
+    font-size: 8px;
+  }
+
+  .response-workspace {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .rating-panel.response-panel {
+    margin: 0;
+    padding: 12px 12px 8px;
+    border-radius: 16px;
+  }
+
+  .slider-copy {
+    display: grid !important;
+    grid-template-columns: 1fr 1.25fr 1fr !important;
+    gap: 4px;
+    font-size: 12px;
+    text-align: left;
+  }
+
+  .slider-copy span:first-child,
+  .slider-copy span:last-child {
+    display: block !important;
+  }
+
+  .slider-copy span:last-child { text-align: right; }
+  .slider-copy strong { font-size: 16px; line-height: 1.1; }
+
+  input[type="range"] {
+    height: 52px;
+    margin: 5px 0 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    width: 46px;
+    height: 46px;
+    margin-top: -19px;
+    background-size: 28px 20px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 46px;
+    height: 46px;
+    background-size: 28px 20px;
+  }
+
+  .scale-labels {
+    margin-bottom: 5px;
+    font-size: 10px;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 7px;
+    margin-top: 6px;
+  }
+
+  .actions button {
+    width: 100% !important;
+    min-height: 44px;
+    padding: 9px 7px;
+    font-size: 13px;
+  }
+
+  .comment-bubble {
+    padding: 13px;
+    border-radius: 16px;
+  }
+
+  .comment-bubble::after { display: none; }
+
+  .comment-bubble label {
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+
+  .comment-bubble textarea {
+    min-height: 82px;
+    max-height: 150px;
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  .comparison {
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) !important;
+    gap: 3px !important;
+  }
+
+  .image-frame {
+    height: clamp(190px, 34dvh, 300px) !important;
+    min-height: 190px !important;
+  }
+
+  .versus {
+    width: 24px;
+    height: 24px;
+  }
+
+  .actions button {
+    font-size: 12px;
+  }
+}
